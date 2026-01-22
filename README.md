@@ -1,0 +1,1 @@
+# ios-smartcoach-sdk-sample
