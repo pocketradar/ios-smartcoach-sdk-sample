@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SmartCoachAPIKey</key>
+	<string>7D0088E1-6C67-441E-ACA8-0B993EA835F2</string>
+	<key>SmartCoachSDKBuildEnvironment</key>
+	<string>Development</string>
+</dict>
+</plist>
