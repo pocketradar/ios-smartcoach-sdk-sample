@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  FullWorkflowView.swift
 //  SmartCoachSDKDev
 //
 //  Created by Wyeth Shamp on 1/28/26.
@@ -8,8 +8,8 @@
 import SwiftUI
 import SmartCoachSDK
 
-struct HomeView: View {
-    @State private var viewModel = HomeViewModel()
+struct FullWorkflowView: View {
+    @State private var viewModel = FullWorkflowViewModel()
     
     var measurementFormatter: MeasurementFormatter {
         let formatter = MeasurementFormatter()
@@ -154,5 +154,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    FullWorkflowView()
 }

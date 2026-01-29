@@ -94,7 +94,7 @@ The SDK can throw these configuration-related errors:
 | Error | Description | Solution |
 |-------|-------------|----------|
 | ``SmartCoachErrorCode/alreadyConfigured`` | `configure()` was called more than once | Only call `configure()` once during app launch |
-| ``SmartCoachErrorCode/notConfigured`` | attempted to use the SDK before configure() was called | Call configure at app launch |
+| ``SmartCoachErrorCode/notConfigured`` | SDK calls were made before configure() was called | Call configure at app launch |
 | ``SmartCoachErrorCode/missingApiKey`` | API key not found in Info.plist | Add `SmartCoachAPIKey` to Info.plist |
 | ``SmartCoachErrorCode/invalidBundleId`` | Bundle ID is missing or invalid | Check your app's bundle identifier |
 | ``SmartCoachErrorCode/invalidConfiguration`` | General configuration issue | Verify all Info.plist entries are correct |
@@ -104,22 +104,16 @@ The SDK can throw these configuration-related errors:
 ```swift
 do {
     try SmartCoach.configure()
-} catch let error as SmartCoachError {
-    switch error {
-    case SmartCoachError.missingApiKey:
-        // Show alert to developer
-        print("API key is missing from Info.plist")
-        
-    case SmartCoachError.alreadyConfigured:
-        // Safe to ignore if you're okay with single configuration
-        print("SDK already configured")
-        
-    case SmartCoachError.invalidBundleId:
-        print("Bundle ID mismatch - check developer portal")
-        
-    default:
-        print("Configuration error: \(error.localizedDescription)")
-    }
+} catch SmartCoachError.missingApiKey {
+    // Show alert to developer
+    print("API key is missing from Info.plist")
+} catch SmartCoachError.alreadyConfigured {
+    // Safe to ignore if you're okay with single configuration
+    print("SDK already configured")
+} catch SmartCoachError.invalidBundleId {
+    print("Bundle ID mismatch - check developer portal")
+} catch {
+    print("Configuration error: \(error.localizedDescription)")
 }
 ```
 

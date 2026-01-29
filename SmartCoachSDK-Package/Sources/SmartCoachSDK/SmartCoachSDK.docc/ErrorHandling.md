@@ -123,7 +123,7 @@ do {
 
 ## Pattern Matching with Error Matchers
 
-SmartCoachSDK provides ``SmartCoachErrorMatcher`` for clean pattern matching:
+SmartCoachSDK provides ``SmartCoachErrorMatcher`` for clean pattern matching when access to the actual error is not needed:
 
 ```swift
 do {
@@ -254,12 +254,10 @@ class DeviceManager: ObservableObject {
             // Configure SDK
             try SmartCoach.configure()
             
-            // Start scanning
-            try await SmartCoach.startScanning(connectToLastPairedDevice: true)
-            
-            // Start measuring
-            let stream = try await SmartCoach.startMeasuring()
-            await processMeasurements(stream)
+            // Start state monitoring
+            let stream = try await SmartCoach.startScanning(connectToLastPairedDevice: true)
+
+            await processStateChanges(stream)
             
         } catch let error as SmartCoachError {
             handleSmartCoachError(error)

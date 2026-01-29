@@ -71,73 +71,148 @@ await SmartCoach.disconnect()
 print("Disconnected from device")
 ```
 
-> Note: `disconnect()` does not throw errors - it always succeeds.
+> Note: `disconnect()` does not throw errors - it always succeeds. 
+However, if an error occured during disconnection, ``SmartCoach/sessionStateStream()`` will emit
+a ``SmartCoachSessionState/disconnected(_:)`` state with an error as an associated value.
+
 
 ## Complete Discovery Flow
 
 Here's a complete example showing device discovery and connection:
 
+ViewModel:
 ```swift
+import Foundation
+import SwiftUI
+import SmartCoachSDK
+
 @MainActor
-class DeviceDiscoveryViewModel: ObservableObject {
-    @Published var isScanning = false
-    @Published var discoveredDevices: [SmartCoachRadar] = []
-    @Published var connectedDevice: SmartCoachRadar?
+@Observable
+class ScanningViewModel {
+    var availableDevices: [any SmartCoachRadar] = []
+    var errorMessage: String?
+    var scanningObservationsTask: Task<Void, Never>?
+    var isScanning = false
+
+    // Available in Swift 6.2
+    // Otherwise start startScanningObservations needs to be async and called from the view.task
+    isolated deinit {
+        resetScanning()
+    }
     
-    func startDiscovery() async {
-        isScanning = true
-        
-        do {
-            try await SmartCoach.startScanning()
-            
-            // In a real app, you'd listen for device discovery events
-            // and populate discoveredDevices
-            
-        } catch SmartCoachError.bluetoothNotAvailable {
-            print("Bluetooth is not available")
-        } catch SmartCoachError.failedToStartScanning {
-            print("Failed to start scanning")
-        } catch {
-            print("Unexpected error: \(error)")
+    func startScanning() {
+        guard !isScanning else { return }
+        resetScanning()
+        startScanningObservations()
+        Task {
+            do {
+                isScanning = true
+                try await SmartCoach.startScanning(connectToLastPairedDevice: false)
+            } catch {
+                self.errorMessage = "Failed to start scan: \(error.localizedDescription)"
+            }
         }
-        
+    }
+    
+    func stopScanning() {
+        resetScanning()
         isScanning = false
-    }
-    
-    func connect(to device: SmartCoachRadar) async {
-        do {
-            // Stop scanning first
-            try await SmartCoach.stopScanning()
-            
-            // Connect to selected device
-            try await SmartCoach.connect(to: device)
-            
-            connectedDevice = device
-            print("Successfully connected to \(device.name)")
-            
-        } catch SmartCoachError.failedToConnect {
-            print("Connection failed - device may be out of range")
-        } catch {
-            print("Connection error: \(error)")
+        Task {
+            do {
+                try await SmartCoach.stopScanning()
+            } catch {
+                self.errorMessage = "Failed to stop scan: \(error.localizedDescription)"
+            }
         }
     }
     
-    func disconnect() async {
-        await SmartCoach.disconnect()
-        connectedDevice = nil
-        print("Disconnected")
+    func connectToDevice(_ device: any SmartCoachRadar) {
+        // Connect to device
     }
     
-    func quickConnect() async {
-        do {
-            // Automatically connect to last paired device
-            try await SmartCoach.startScanning(connectToLastPairedDevice: true)
-            print("Reconnected to previous device")
-        } catch {
-            print("Auto-connect failed: \(error)")
+    private func startScanningObservations() {
+        resetScanning()
+        scanningObservationsTask = Task { @MainActor in
+            do {
+                for await state in try await SmartCoach.sessionStateStream() {
+                    try Task.checkCancellation()
+                    if case let .scanning(devices) = state {
+                        availableDevices = devices
+                    }
+                }
+            } catch SmartCoachError.notConfigured {
+                errorMessage = "Please configure the SDK"
+            } catch {
+                errorMessage = "An unexpected error occurred: \(error.localizedDescription)"
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func resetScanning() {
+        scanningObservationsTask?.cancel()
+        scanningObservationsTask = nil
+        availableDevices.removeAll()
+    }
+}
+```
+
+View:
+```swift
+import SwiftUI
+import SmartCoachSDK
+
+struct ScanningView: View {
+    @State private var viewModel = ScanningViewModel()
+    var body: some View {
+        VStack {
+            scanningButton
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVStack {
+                    ForEach(viewModel.availableDevices, id: \.id) { device in
+                        HStack {
+                            
+                            VStack(alignment: .leading) {
+                                Text(device.id)
+                                    .font(.headline)
+                                Text("RSSI: \(device.rssi)")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                            
+                            Spacer()
+                            // Signal strength indicator
+                            SignalStrengthView(level: RadarConnectionStrength(rssi: device.rssi))
+                                .frame(width: 24, height: 24)
+                            Button("Connect") {
+                                viewModel.connectToDevice(device)
+                            }.buttonStyle(.bordered)
+                            
+                        }
+                    }
+                }.padding()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var scanningButton: some View {
+        if viewModel.isScanning {
+            Button("Stop Scanning") {
+                viewModel.stopScanning()
+            }.buttonStyle(.bordered)
+        } else {
+            Button("Start Scanning") {
+                viewModel.startScanning()
+            }.buttonStyle(.bordered)
         }
     }
 }
+
+#Preview {
+    ScanningView()
+}
+
 ```
 
 ## Connection States
@@ -200,22 +275,8 @@ catch SmartCoachError.failedToConnect {
 
 ## Best Practices
 
-### 1. Stop Scanning After Connection
 
-```swift
-// ✅ Good
-try await SmartCoach.startScanning()
-// User selects device...
-try await SmartCoach.stopScanning()
-try await SmartCoach.connect(to: selectedDevice)
-
-// ❌ Bad - wastes battery
-try await SmartCoach.startScanning()
-try await SmartCoach.connect(to: selectedDevice)
-// Forgot to stop scanning!
-```
-
-### 2. Handle Bluetooth Permissions
+### 1. Handle Bluetooth Permissions
 
 Request Bluetooth permissions before scanning:
 
@@ -241,7 +302,7 @@ func checkBluetoothPermissions() {
 }
 ```
 
-### 3. Provide Visual Feedback
+### 2. Provide Visual Feedback
 
 Show users what's happening during discovery:
 
@@ -267,7 +328,7 @@ struct ScanningView: View {
 }
 ```
 
-### 4. Auto-Connect for Returning Users
+### 3. Auto-Connect for Returning Users
 
 Use auto-connect for better UX with returning users:
 
@@ -287,7 +348,7 @@ func handleAppLaunch() async {
 }
 ```
 
-### 5. Handle Unexpected Disconnections
+### 4. Handle Unexpected Disconnections
 
 React appropriately when connection is lost:
 
@@ -305,6 +366,7 @@ for await state in stateStream {
     }
 }
 ```
+> Note: Unexpected disconnects can be handle by the SDK by sending ``SmartCoachDeviceConfigurationOptions`` when configuring the SDK
 
 ## See Also
 

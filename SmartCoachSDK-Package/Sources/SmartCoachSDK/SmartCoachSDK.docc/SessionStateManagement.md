@@ -26,19 +26,37 @@ The primary way to observe state changes is through an AsyncStream:
 
 ```swift
 @MainActor
-class SessionStateViewModel: ObservableObject {
-    @Published var currentState: SmartCoachSessionState = .disconnected
+@Observable
+class SessionStateViewModel {
+    var currentState: SmartCoachSessionState = SmartCoach.currentSessionState()
+    var errorMessage: String?
+    private var sessionStateTask: Task<Void, Never>?
     
-    func observeSessionState() async {
-        do {
-            let stateStream = try await SmartCoach.sessionStateStream()
-            
-            for await state in stateStream {
-                currentState = state
-                handleStateChange(state)
+    init() {
+        monitorSessionState()
+    }
+    
+    // Available in Swift 6.2
+    // Otherwise start startScanningObservations needs to be async and called from the view.task
+    isolated deinit {
+        sessionStateTask?.cancel()
+        sessionStateTask = nil
+    }
+    
+    private func monitorSessionState() {
+        sessionStateTask = Task { @MainActor in
+            do {
+                for await state in try await SmartCoach.sessionStateStream() {
+                    try Task.checkCancellation()
+                    currentState = state
+                    handleStateChange(state)
+                }
+            } catch SmartCoachError.notConfigured {
+                errorMessage = "Please configure the SDK"
+            } catch {
+                errorMessage = "An unexpected error occurred: \(error.localizedDescription)"
+                print(error.localizedDescription)
             }
-        } catch {
-            print("Failed to observe state: \(error)")
         }
     }
     
@@ -53,11 +71,16 @@ class SessionStateViewModel: ObservableObject {
         case .connecting:
             print("Connecting to device...")
             
+        case .reconnecting:
+            print("Reconnecting to device...")
+            
         case .connected:
             print("Device connected and ready")
             
         case .measuring:
             print("Receiving measurements")
+        @unknown default:
+            print("unknown state")
         }
     }
 }
@@ -97,6 +120,7 @@ struct DeviceStatusView: View {
             actionButton
         }
         .task {
+            // if you cannot support Swift 6.2 start observing here
             await viewModel.observeSessionState()
         }
     }
@@ -161,101 +185,101 @@ struct DeviceStatusView: View {
 }
 ```
 
-### Automatic Reconnection
-
-Implement auto-reconnect logic based on state changes:
-
-```swift
-class AutoReconnectManager: ObservableObject {
-    private var reconnectAttempts = 0
-    private let maxReconnectAttempts = 3
-    
-    func startMonitoring() async {
-        let stateStream = try? await SmartCoach.sessionStateStream()
-        
-        guard let stream = stateStream else { return }
-        
-        for await state in stream {
-            if case .disconnected = state {
-                await handleDisconnection()
-            }
-        }
-    }
-    
-    private func handleDisconnection() async {
-        guard reconnectAttempts < maxReconnectAttempts else {
-            print("Max reconnect attempts reached")
-            return
-        }
-        
-        reconnectAttempts += 1
-        print("Attempting reconnect (\(reconnectAttempts)/\(maxReconnectAttempts))...")
-        
-        try? await Task.sleep(for: .seconds(2))
-        
-        do {
-            try await SmartCoach.startScanning(connectToLastPairedDevice: true)
-            reconnectAttempts = 0 // Reset on successful reconnect
-        } catch {
-            print("Reconnect failed: \(error)")
-        }
-    }
-}
-```
-
-### Session Recording
-
-Track session duration and events:
-
-```swift
-@MainActor
-class SessionRecorder: ObservableObject {
-    @Published var sessionDuration: TimeInterval = 0
-    @Published var measurementStartTime: Date?
-    
-    private var timer: Timer?
-    
-    func startMonitoring() async {
-        let stateStream = try? await SmartCoach.sessionStateStream()
-        
-        guard let stream = stateStream else { return }
-        
-        for await state in stream {
-            handleStateForRecording(state)
-        }
-    }
-    
-    private func handleStateForRecording(_ state: SmartCoachSessionState) {
-        switch state {
-        case .measuring:
-            startTimer()
-            
-        case .disconnected, .connected:
-            stopTimer()
-            
-        default:
-            break
-        }
-    }
-    
-    private func startTimer() {
-        guard measurementStartTime == nil else { return }
-        
-        measurementStartTime = Date()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            guard let startTime = self?.measurementStartTime else { return }
-            self?.sessionDuration = Date().timeIntervalSince(startTime)
-        }
-    }
-    
-    private func stopTimer() {
-        timer?.invalidate()
-        timer = nil
-        measurementStartTime = nil
-        sessionDuration = 0
-    }
-}
-```
+<!--### Automatic Reconnection-->
+<!---->
+<!--Implement auto-reconnect logic based on state changes:-->
+<!---->
+<!--```swift-->
+<!--class AutoReconnectManager: ObservableObject {-->
+<!--    private var reconnectAttempts = 0-->
+<!--    private let maxReconnectAttempts = 3-->
+<!--    -->
+<!--    func startMonitoring() async {-->
+<!--        let stateStream = try? await SmartCoach.sessionStateStream()-->
+<!--        -->
+<!--        guard let stream = stateStream else { return }-->
+<!--        -->
+<!--        for await state in stream {-->
+<!--            if case .disconnected = state {-->
+<!--                await handleDisconnection()-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
+<!--    -->
+<!--    private func handleDisconnection() async {-->
+<!--        guard reconnectAttempts < maxReconnectAttempts else {-->
+<!--            print("Max reconnect attempts reached")-->
+<!--            return-->
+<!--        }-->
+<!--        -->
+<!--        reconnectAttempts += 1-->
+<!--        print("Attempting reconnect (\(reconnectAttempts)/\(maxReconnectAttempts))...")-->
+<!--        -->
+<!--        try? await Task.sleep(for: .seconds(2))-->
+<!--        -->
+<!--        do {-->
+<!--            try await SmartCoach.startScanning(connectToLastPairedDevice: true)-->
+<!--            reconnectAttempts = 0 // Reset on successful reconnect-->
+<!--        } catch {-->
+<!--            print("Reconnect failed: \(error)")-->
+<!--        }-->
+<!--    }-->
+<!--}-->
+<!--```-->
+<!---->
+<!--### Session Recording-->
+<!---->
+<!--Track session duration and events:-->
+<!---->
+<!--```swift-->
+<!--@MainActor-->
+<!--class SessionRecorder: ObservableObject {-->
+<!--    @Published var sessionDuration: TimeInterval = 0-->
+<!--    @Published var measurementStartTime: Date?-->
+<!--    -->
+<!--    private var timer: Timer?-->
+<!--    -->
+<!--    func startMonitoring() async {-->
+<!--        let stateStream = try? await SmartCoach.sessionStateStream()-->
+<!--        -->
+<!--        guard let stream = stateStream else { return }-->
+<!--        -->
+<!--        for await state in stream {-->
+<!--            handleStateForRecording(state)-->
+<!--        }-->
+<!--    }-->
+<!--    -->
+<!--    private func handleStateForRecording(_ state: SmartCoachSessionState) {-->
+<!--        switch state {-->
+<!--        case .measuring:-->
+<!--            startTimer()-->
+<!--            -->
+<!--        case .disconnected, .connected:-->
+<!--            stopTimer()-->
+<!--            -->
+<!--        default:-->
+<!--            break-->
+<!--        }-->
+<!--    }-->
+<!--    -->
+<!--    private func startTimer() {-->
+<!--        guard measurementStartTime == nil else { return }-->
+<!--        -->
+<!--        measurementStartTime = Date()-->
+<!--        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in-->
+<!--            guard let startTime = self?.measurementStartTime else { return }-->
+<!--            self?.sessionDuration = Date().timeIntervalSince(startTime)-->
+<!--        }-->
+<!--    }-->
+<!--    -->
+<!--    private func stopTimer() {-->
+<!--        timer?.invalidate()-->
+<!--        timer = nil-->
+<!--        measurementStartTime = nil-->
+<!--        sessionDuration = 0-->
+<!--    }-->
+<!--}-->
+<!--```-->
 
 ### State-Based Validation
 

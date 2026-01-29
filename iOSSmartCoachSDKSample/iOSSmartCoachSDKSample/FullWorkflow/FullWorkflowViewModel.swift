@@ -1,5 +1,5 @@
 //
-//  HomeViewModel.swift
+//  FullWorkflowViewModel.swift
 //  SmartCoachSDKDev
 //
 //  Created by Wyeth Shamp on 1/28/26.
@@ -11,13 +11,15 @@ import SmartCoachSDK
 
 @MainActor
 @Observable
-class HomeViewModel {
+class FullWorkflowViewModel {
     var sessionState: SmartCoachSessionState = SmartCoach.currentSessionState()
     var errorMessage: String?
     var availableDevices: [any SmartCoachRadar] = []
     var selectedDevice: (any SmartCoachRadar)?
     var speeds: [Measurement<UnitSpeed>] = []
-    var speedsTask: Task<Void, Never>?
+    private var speedsTask: Task<Void, Never>?
+    
+    
     func startMonitoring() async {
 
         do {
@@ -31,6 +33,12 @@ class HomeViewModel {
                     cancelSpeedsTask()
                 case .measuring:
                     availableDevices.removeAll()
+                case let .disconnected(error):
+                    availableDevices.removeAll()
+                    cancelSpeedsTask()
+                    if let error = error {
+                        throw error
+                    }
                 default:
                     availableDevices.removeAll()
                     cancelSpeedsTask()

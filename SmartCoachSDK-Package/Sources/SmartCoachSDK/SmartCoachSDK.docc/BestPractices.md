@@ -49,23 +49,6 @@ init() {
 
 ## Connection Management
 
-### Stop Scanning After Connection
-
-Always stop scanning once you've connected to save battery:
-
-```swift
-// ✅ Good
-try await SmartCoach.startScanning()
-// User selects device
-try await SmartCoach.stopScanning()
-try await SmartCoach.connect(to: device)
-
-// ❌ Bad - wastes battery
-try await SmartCoach.startScanning()
-try await SmartCoach.connect(to: device)
-// Forgot to stop scanning!
-```
-
 ### Use Auto-Connect for Returning Users
 
 Provide a seamless experience for returning users:
@@ -89,20 +72,15 @@ func connectOnLaunch() async {
 
 ### Handle Unexpected Disconnections
 
-Monitor session state and react to disconnections:
+Enable autoReconnect at configure time:
 
 ```swift
-for await state in sessionStateStream {
-    if case .disconnected = state {
-        if shouldAutoReconnect {
-            Task {
-                try? await Task.sleep(for: .seconds(2))
-                try? await SmartCoach.startScanning(connectToLastPairedDevice: true)
-            }
-        } else {
-            showReconnectPrompt()
-        }
-    }
+let options = SmartCoachDeviceConfigurationOptions(autoReconnect: true)
+
+do {
+    try SmartCoach.configure(deviceConfigurationOptions: options)
+} catch {
+    print("Configuration failed: \(error)")
 }
 ```
 
@@ -136,37 +114,6 @@ class MeasurementManager: ObservableObject {
     
     deinit {
         measurementTask?.cancel()
-    }
-}
-```
-
-### Limit Stored Measurements
-
-Prevent memory issues by limiting stored data:
-
-```swift
-func handleNewMeasurement(_ measurement: MeasurementData) {
-    measurements.append(measurement)
-    
-    // Keep only last 100 measurements in memory
-    if measurements.count > 100 {
-        measurements.removeFirst(measurements.count - 100)
-    }
-}
-```
-
-### Process Measurements Off Main Thread
-
-For heavy processing, move work off the main thread:
-
-```swift
-for await measurement in stream {
-    Task.detached {
-        let processed = await heavyProcessing(measurement)
-        
-        await MainActor.run {
-            self.displayProcessedData(processed)
-        }
     }
 }
 ```
@@ -209,31 +156,6 @@ func userFriendlyMessage(for error: Error) -> String {
     default:
         return scError.localizedDescription
     }
-}
-```
-
-### Implement Retry Logic
-
-For transient errors, implement retry with backoff:
-
-```swift
-func connectWithRetry(maxAttempts: Int = 3) async throws {
-    var attempts = 0
-    
-    while attempts < maxAttempts {
-        do {
-            try await SmartCoach.startScanning(connectToLastPairedDevice: true)
-            return
-        } catch SmartCoachError.failedToConnect {
-            attempts += 1
-            if attempts < maxAttempts {
-                let delay = TimeInterval(attempts * 2) // Exponential backoff
-                try await Task.sleep(for: .seconds(delay))
-            }
-        }
-    }
-    
-    throw SmartCoachError(code: .failedToConnect, domain: "retry", underlyingError: /* ... */)
 }
 ```
 
@@ -378,22 +300,6 @@ func setupConnection(completion: @escaping (Error?) -> Void) {
 }
 ```
 
-### Batch UI Updates
-
-Group related UI updates to reduce redraws:
-
-```swift
-func updateWithMeasurements(_ newMeasurements: [MeasurementData]) {
-    // ✅ Good - single update
-    measurements.append(contentsOf: newMeasurements)
-    
-    // ❌ Bad - multiple updates
-    for measurement in newMeasurements {
-        measurements.append(measurement) // Triggers update each time
-    }
-}
-```
-
 ### Cancel Unused Tasks
 
 Clean up tasks that are no longer needed:
@@ -419,57 +325,57 @@ class ViewModel: ObservableObject {
 }
 ```
 
-## Testing
-
-### Make Your Code Testable
-
-Design for testability by using protocols:
-
-```swift
-protocol SmartCoachServiceProtocol {
-    func startScanning() async throws
-    func connect(to device: SmartCoachRadar) async throws
-    func startMeasuring() async throws -> AsyncStream<MeasurementData>
-}
-
-// Production implementation uses SmartCoach directly
-class SmartCoachService: SmartCoachServiceProtocol {
-    func startScanning() async throws {
-        try await SmartCoach.startScanning()
-    }
-    // ...
-}
-
-// Mock for testing
-class MockSmartCoachService: SmartCoachServiceProtocol {
-    var shouldFailScanning = false
-    
-    func startScanning() async throws {
-        if shouldFailScanning {
-            throw SmartCoachError(code: .failedToStartScanning, domain: "test", underlyingError: /* ... */)
-        }
-    }
-    // ...
-}
-```
-
-### Test Error Paths
-
-Always test how your app handles errors:
-
-```swift
-func testConnectionFailure() async {
-    let mockService = MockSmartCoachService()
-    mockService.shouldFailConnection = true
-    
-    let viewModel = DeviceViewModel(service: mockService)
-    
-    await viewModel.connect()
-    
-    XCTAssertFalse(viewModel.isConnected)
-    XCTAssertNotNil(viewModel.errorMessage)
-}
-```
+<!--## Testing-->
+<!---->
+<!--### Make Your Code Testable-->
+<!---->
+<!--Design for testability by using protocols:-->
+<!---->
+<!--```swift-->
+<!--protocol SmartCoachServiceProtocol {-->
+<!--    func startScanning() async throws-->
+<!--    func connect(to device: SmartCoachRadar) async throws-->
+<!--    func startMeasuring() async throws -> AsyncStream<MeasurementData>-->
+<!--}-->
+<!---->
+<!--// Production implementation uses SmartCoach directly-->
+<!--class SmartCoachService: SmartCoachServiceProtocol {-->
+<!--    func startScanning() async throws {-->
+<!--        try await SmartCoach.startScanning()-->
+<!--    }-->
+<!--    // ...-->
+<!--}-->
+<!---->
+<!--// Mock for testing-->
+<!--class MockSmartCoachService: SmartCoachServiceProtocol {-->
+<!--    var shouldFailScanning = false-->
+<!--    -->
+<!--    func startScanning() async throws {-->
+<!--        if shouldFailScanning {-->
+<!--            throw SmartCoachError(code: .failedToStartScanning, domain: "test", underlyingError: /* ... */)-->
+<!--        }-->
+<!--    }-->
+<!--    // ...-->
+<!--}-->
+<!--```-->
+<!---->
+<!--### Test Error Paths-->
+<!---->
+<!--Always test how your app handles errors:-->
+<!---->
+<!--```swift-->
+<!--func testConnectionFailure() async {-->
+<!--    let mockService = MockSmartCoachService()-->
+<!--    mockService.shouldFailConnection = true-->
+<!--    -->
+<!--    let viewModel = DeviceViewModel(service: mockService)-->
+<!--    -->
+<!--    await viewModel.connect()-->
+<!--    -->
+<!--    XCTAssertFalse(viewModel.isConnected)-->
+<!--    XCTAssertNotNil(viewModel.errorMessage)-->
+<!--}-->
+<!--```-->
 
 ## Security
 
