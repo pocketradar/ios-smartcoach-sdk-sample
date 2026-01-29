@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FCDB2DA32F2AA789009F6B7F /* SmartCoachSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6DB0032F22767400D9B36B /* SmartCoachSDK.xcframework */; };
-		FCDB2DA42F2AA789009F6B7F /* SmartCoachSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC6DB0032F22767400D9B36B /* SmartCoachSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FCDB2E152F2B105E009F6B7F /* SmartCoachSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FCDB2E142F2B105E009F6B7F /* SmartCoachSDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,7 +17,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				FCDB2DA42F2AA789009F6B7F /* SmartCoachSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -27,7 +25,6 @@
 
 /* Begin PBXFileReference section */
 		FC6DAFF52F22766500D9B36B /* iOSSmartCoachSDKSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSmartCoachSDKSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC6DB0032F22767400D9B36B /* SmartCoachSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SmartCoachSDK.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCDB2DA32F2AA789009F6B7F /* SmartCoachSDK.xcframework in Frameworks */,
+				FCDB2E152F2B105E009F6B7F /* SmartCoachSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,7 +65,6 @@
 			children = (
 				FC6DAFF72F22766500D9B36B /* iOSSmartCoachSDKSample */,
 				FC6DAFF62F22766500D9B36B /* Products */,
-				FC6DB0032F22767400D9B36B /* SmartCoachSDK.xcframework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,6 +97,7 @@
 			);
 			name = iOSSmartCoachSDKSample;
 			packageProductDependencies = (
+				FCDB2E142F2B105E009F6B7F /* SmartCoachSDK */,
 			);
 			productName = iOSSmartCoachSDKSample;
 			productReference = FC6DAFF52F22766500D9B36B /* iOSSmartCoachSDKSample.app */;
@@ -130,6 +127,9 @@
 			);
 			mainGroup = FC6DAFEC2F22766500D9B36B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				FCDB2E132F2B105E009F6B7F /* XCLocalSwiftPackageReference "../SmartCoachSDK-Package" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FC6DAFF62F22766500D9B36B /* Products */;
 			projectDirPath = "";
@@ -372,6 +372,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		FCDB2E132F2B105E009F6B7F /* XCLocalSwiftPackageReference "../SmartCoachSDK-Package" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../SmartCoachSDK-Package";
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FCDB2E142F2B105E009F6B7F /* SmartCoachSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SmartCoachSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = FC6DAFED2F22766500D9B36B /* Project object */;
 }
