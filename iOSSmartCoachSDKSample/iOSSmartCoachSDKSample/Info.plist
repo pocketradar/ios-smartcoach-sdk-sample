@@ -4,7 +4,5 @@
 <dict>
 	<key>SmartCoachAPIKey</key>
 	<string></string>
-	<key>SmartCoachSDKBuildEnvironment</key>
-	<string>Development</string>
 </dict>
 </plist>

@@ -26,7 +26,7 @@ struct iOSSmartCoachSDKSampleApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            ScanningView()
+            FullWorkflowView()
         }
     }
 }
