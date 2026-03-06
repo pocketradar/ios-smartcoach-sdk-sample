@@ -172,6 +172,7 @@ public enum RadarPowerSource : Swift.Sendable, Swift.Equatable {
   @_Concurrency.MainActor public static func stopMeasuring() async throws
   @_Concurrency.MainActor public static func sessionStateStream() async throws -> _Concurrency.AsyncStream<SmartCoachSDK.SmartCoachSessionState>
   @_Concurrency.MainActor public static func currentSessionState() -> SmartCoachSDK.SmartCoachSessionState
+  @_Concurrency.MainActor public static func getVersion() -> Swift.String
 }
 public enum SmartCoachErrorCode : Swift.Int, Swift.Sendable, Swift.Equatable, Swift.CaseIterable {
   case alreadyConfigured
@@ -241,6 +242,11 @@ extension SmartCoachSDK.SmartCoachError : Foundation.CustomNSError {
     get
   }
   public var errorUserInfo: [Swift.String : Any] {
+    get
+  }
+}
+extension SmartCoachSDK.SmartCoachError {
+  public var debugDescription: Swift.String {
     get
   }
 }

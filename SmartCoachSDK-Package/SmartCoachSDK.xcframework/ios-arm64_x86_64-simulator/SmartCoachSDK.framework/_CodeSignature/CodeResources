@@ -22,43 +22,43 @@
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.abi.json</key>
 		<data>
-		TcKiO4oJMI9jPZnknCkmNZpn6cU=
+		r7efVDRBQ+s3TULUHbycGY4CHmg=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		MNmra9+ceVSKb5x/KCTnqiYbHYI=
+		fFjqdu3gnrgSpef+q6L5YN8BSiU=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		HNzhP4wOjmltSSe6kdk45kHk98U=
+		xar6fnHX8/1roIUircPTSlMgvKE=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		RhhQ/C1dODK0i1DDsoeAb3dTf0U=
+		FV/QBOli+pyM8oSpGTvFUdE9Fkk=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		vKzwVks6fEyX1Ro1e30hQ6EoVLI=
+		zHjNXArHXBJwKpBrXlV+h7htOTs=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<data>
-		TcKiO4oJMI9jPZnknCkmNZpn6cU=
+		r7efVDRBQ+s3TULUHbycGY4CHmg=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<data>
-		+XK51jCOx3tcpI6jvQlO+kXzzTU=
+		TkjUDvxV9gyhYDOjP9cAArvyu2g=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
-		3KVyYKjtTAr9unNvHp6603Lbk64=
+		q35CWm5/Lc/Pw2yzGhTzvWtXUW8=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<data>
-		3UUqkpPmMOGjK/8EWelr7BLVkuM=
+		Bl+xhJn20rH195xD6ObY0oZBp+A=
 		</data>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		fp4SISOqXgXGjjau7321/7vhsZ8=
+		nDWLPzGepwMNd4djM52SXy8xNO0=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -92,70 +92,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			w6a4XoEzHwB5Dvp/R4B+NGOG/l6KwwV6nCthDvp0BMA=
+			+vcXVJMQHocBr7QM19qe/6W0esIisbfPnqqJ56y4uqY=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			wMZdBfNR6ZsKrII8EbMfYoZn4bwv/3xzSs5H8S+tjp8=
+			ODso0m8csvDOPCPEfuGaTLY2Iva8LaALc5os8WdTL6s=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			sNMMRYCpaEtHf60EpAuxtW/prQANfkvV24f8mBJ9Qb8=
+			rG746x/X6VPaeHnnlSls+oODqcC6MpMJi9kgw6tjBSs=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			rffBYy17Bx+ozZ2T3BHEVN+DQ0qyOdXxsGrmgd6CiNI=
+			vv7XX9OpaJXEezuCIdh77LDD0IrSm1YNhPoTnXy5bL0=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Dmfvf6PWbIFs2xGnhEwkQTyX6I898xqeotGfbqRjk+E=
+			dtPcGOw7U2VKWgnWygOoZT9wL4owtWZ0+Gy+uNEnPB4=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.abi.json</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			w6a4XoEzHwB5Dvp/R4B+NGOG/l6KwwV6nCthDvp0BMA=
+			+vcXVJMQHocBr7QM19qe/6W0esIisbfPnqqJ56y4uqY=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.private.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JL14GE5CFPggqmW9J26nHES/JufHeWqYXwgHCS2Fupo=
+			CKYxX+oPc6MdBJ5OmorkaCveZv7UvtBTYouQcJRaeb8=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iSYrc6cHBMhwgEzmZRI9Fb+AHMORAICaiKw3Xkq942s=
+			M6DXELWHOQjI5S4OuAyHGBoKx/5lz6mE2xbmVCrWFHE=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.swiftinterface</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			HtIMal5m4goQaM7Fe1/NjxCyInR3kjEyvsIU5oMGEHU=
+			hC6aMtQ4w0GPGOodVESWTl97HfmsLl1IbEw+ZvmjEXg=
 			</data>
 		</dict>
 		<key>Modules/SmartCoachSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			AxDPU5bx1ic3EF5YK5kc6fMhUKVUCcM1X8mLIL3S31o=
+			LwvR2Cn6cR5KxKEc1L4eRjDizTl94A0LGmGZm/Az8n0=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

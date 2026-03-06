@@ -5154,6 +5154,30 @@
               "RawDocComment"
             ],
             "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "getVersion",
+            "printedName": "getVersion()",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:13SmartCoachSDK0aB0O10getVersionSSyFZ",
+            "mangledName": "$s13SmartCoachSDK0aB0O10getVersionSSyFZ",
+            "moduleName": "SmartCoachSDK",
+            "static": true,
+            "declAttributes": [
+              "Custom",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "funcSelfKind": "NonMutating"
           }
         ],
         "declKind": "Enum",
@@ -7113,6 +7137,48 @@
                 "declKind": "Accessor",
                 "usr": "s:13SmartCoachSDK0aB5ErrorV13errorUserInfoSDySSypGvg",
                 "mangledName": "$s13SmartCoachSDK0aB5ErrorV13errorUserInfoSDySSypGvg",
+                "moduleName": "SmartCoachSDK",
+                "isFromExtension": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "debugDescription",
+            "printedName": "debugDescription",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "String",
+                "printedName": "Swift.String",
+                "usr": "s:SS"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:13SmartCoachSDK0aB5ErrorV16debugDescriptionSSvp",
+            "mangledName": "$s13SmartCoachSDK0aB5ErrorV16debugDescriptionSSvp",
+            "moduleName": "SmartCoachSDK",
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "isFromExtension": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "String",
+                    "printedName": "Swift.String",
+                    "usr": "s:SS"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:13SmartCoachSDK0aB5ErrorV16debugDescriptionSSvg",
+                "mangledName": "$s13SmartCoachSDK0aB5ErrorV16debugDescriptionSSvg",
                 "moduleName": "SmartCoachSDK",
                 "isFromExtension": true,
                 "accessorKind": "get"
@@ -10723,49 +10789,49 @@
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 33070,
+      "offset": 33047,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 33080,
+      "offset": 33057,
       "length": 1,
       "value": "9"
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 33130,
+      "offset": 33107,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 33140,
+      "offset": 33117,
       "length": 2,
       "value": "16"
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 33191,
+      "offset": 33168,
       "length": 1,
       "value": "0"
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "IntegerLiteral",
-      "offset": 33201,
+      "offset": 33178,
       "length": 2,
       "value": "24"
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/NewRadarAPI\/NewRadarAPI.swift",
       "kind": "Array",
-      "offset": 33264,
+      "offset": 33241,
       "length": 2,
       "value": "[]"
     },
@@ -10947,16 +11013,37 @@
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/SmartCoachCore\/Configuration\/SmartCoachOptions.swift",
       "kind": "StringLiteral",
-      "offset": 271,
+      "offset": 255,
       "length": 14,
-      "value": "\"0.1.0-beta.2\""
+      "value": "\"0.1.0-beta.3\""
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/SmartCoachCore\/Configuration\/SmartCoachOptions.swift",
       "kind": "StringLiteral",
-      "offset": 313,
+      "offset": 304,
       "length": 5,
       "value": "\"iOS\""
+    },
+    {
+      "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/SmartCoachCore\/Configuration\/SmartCoachOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 347,
+      "length": 77,
+      "value": "\"Version: \""
+    },
+    {
+      "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/SmartCoachCore\/Configuration\/SmartCoachOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 385,
+      "length": 1,
+      "value": "\", platform: \""
+    },
+    {
+      "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/SmartCoachCore\/Configuration\/SmartCoachOptions.swift",
+      "kind": "StringLiteral",
+      "offset": 423,
+      "length": 1,
+      "value": "\"\""
     },
     {
       "filePath": "\/Users\/wyeth\/PocketRadar\/Code\/ios-smartcoach-sdk-dev\/SmartCoachSDK\/SmartCoachCore\/SmartCoachCore.swift",
