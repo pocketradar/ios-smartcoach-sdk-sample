@@ -21,7 +21,7 @@ class FullWorkflowViewModel {
     
     
     func startMonitoring() async {
-
+        
         do {
             for await value in try await SmartCoach.sessionStateStream() {
                 try Task.checkCancellation()
@@ -46,8 +46,13 @@ class FullWorkflowViewModel {
             }
         } catch SmartCoachError.notConfigured {
             errorMessage = "Please configure the SDK"
-        } catch {
-            errorMessage = "An unexpected error occurred: \(error.localizedDescription)" 
+        } catch let error as SmartCoachError {
+            errorMessage = "An unexpected error occurred: \(error.localizedDescription)"
+            print(error.localizedDescription)
+            print(error.debugDescription)
+            print(SmartCoach.getVersion())
+        }catch {
+            errorMessage = "An unexpected error occurred: \(error.localizedDescription)"
             print(error.localizedDescription)
         }
             
@@ -70,11 +75,11 @@ class FullWorkflowViewModel {
         }
     }
     
-    func startScanning() {
+    func startScanning(autoConnect: Bool) {
         guard sessionState.rootState != .scanning else { return }
         Task {
             do {
-                try await SmartCoach.startScanning(connectToLastPairedDevice: false)
+                try await SmartCoach.startScanning(connectToLastPairedDevice: autoConnect)
             } catch {
                 self.errorMessage = "Failed to start scan: \(error.localizedDescription)"
             }

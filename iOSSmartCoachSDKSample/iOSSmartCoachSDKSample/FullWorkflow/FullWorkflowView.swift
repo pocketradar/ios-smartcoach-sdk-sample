@@ -127,10 +127,16 @@ struct FullWorkflowView: View {
     private var connectionActionButton: some View {
         switch viewModel.sessionState {
         case .disconnected:
-            Button("Scan for Devices") {
-                viewModel.startScanning()
+            HStack {
+                Button("Scan") {
+                    viewModel.startScanning(autoConnect: false)
+                }
+                .buttonStyle(.borderedProminent)
+                Button("Scan with Auto-Connect") {
+                    viewModel.startScanning(autoConnect: true)
+                }
+                .buttonStyle(.borderedProminent)
             }
-            .buttonStyle(.borderedProminent)
             
         case .connected, .connecting, .reconnecting, .measuring:
             Button("Disconnect") {

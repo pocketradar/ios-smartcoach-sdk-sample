@@ -12,6 +12,7 @@ struct iOSSmartCoachSDKSampleApp: App {
     init() {
         do {
             try SmartCoach.configure()
+            print("SDK configured successfully: \(SmartCoach.getVersion())")
         } catch SmartCoachError.missingApiKey {
             // Show alert to developer
             print("API key is missing from Info.plist")

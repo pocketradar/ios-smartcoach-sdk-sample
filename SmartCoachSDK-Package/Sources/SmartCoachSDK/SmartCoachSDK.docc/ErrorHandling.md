@@ -213,6 +213,12 @@ catch let error as SmartCoachError {
     
     // Send to analytics/crash reporting
     Analytics.logError(error)
+
+    // Get internal SDK Debug information
+    print(error.debugDescription)
+
+    // Get SDK version information
+    print(SmartCoach.getVersion())
 }
 ```
 
