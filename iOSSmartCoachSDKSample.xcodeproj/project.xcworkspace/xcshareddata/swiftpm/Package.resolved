@@ -1,0 +1,15 @@
+{
+  "originHash" : "407e8af62c295845a84529151ac62308447fb4ca36760cadc47ecbf2f892a86d",
+  "pins" : [
+    {
+      "identity" : "smartcoach-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pocketradar/smartcoach-ios-sdk",
+      "state" : {
+        "branch" : "main",
+        "revision" : "bb9752ac2621d56cc834bc4dc55a81f1092b345c"
+      }
+    }
+  ],
+  "version" : 3
+}

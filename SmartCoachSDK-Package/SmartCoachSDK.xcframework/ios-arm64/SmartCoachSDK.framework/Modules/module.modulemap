@@ -1,6 +1,0 @@
-framework module SmartCoachSDK {
-  umbrella header "SmartCoachSDK.h"
-  export *
-
-  module * { export * }
-}

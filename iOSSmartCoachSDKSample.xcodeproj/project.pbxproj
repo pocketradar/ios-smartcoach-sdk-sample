@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC9DE4F42F72FE6F001D789E /* SmartCoachSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FC9DE4F32F72FE6F001D789E /* SmartCoachSDK */; };
 		FCDB2E152F2B105E009F6B7F /* SmartCoachSDK in Frameworks */ = {isa = PBXBuildFile; productRef = FCDB2E142F2B105E009F6B7F /* SmartCoachSDK */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC9DE4F42F72FE6F001D789E /* SmartCoachSDK in Frameworks */,
 				FCDB2E152F2B105E009F6B7F /* SmartCoachSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,6 +100,7 @@
 			name = iOSSmartCoachSDKSample;
 			packageProductDependencies = (
 				FCDB2E142F2B105E009F6B7F /* SmartCoachSDK */,
+				FC9DE4F32F72FE6F001D789E /* SmartCoachSDK */,
 			);
 			productName = iOSSmartCoachSDKSample;
 			productReference = FC6DAFF52F22766500D9B36B /* iOSSmartCoachSDKSample.app */;
@@ -128,7 +131,7 @@
 			mainGroup = FC6DAFEC2F22766500D9B36B;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				FCDB2E132F2B105E009F6B7F /* XCLocalSwiftPackageReference "../SmartCoachSDK-Package" */,
+				FC9DE4F22F72FE6F001D789E /* XCRemoteSwiftPackageReference "smartcoach-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = FC6DAFF62F22766500D9B36B /* Products */;
@@ -373,14 +376,23 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		FCDB2E132F2B105E009F6B7F /* XCLocalSwiftPackageReference "../SmartCoachSDK-Package" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../SmartCoachSDK-Package";
+/* Begin XCRemoteSwiftPackageReference section */
+		FC9DE4F22F72FE6F001D789E /* XCRemoteSwiftPackageReference "smartcoach-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pocketradar/smartcoach-ios-sdk";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
 		};
-/* End XCLocalSwiftPackageReference section */
+/* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		FC9DE4F32F72FE6F001D789E /* SmartCoachSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FC9DE4F22F72FE6F001D789E /* XCRemoteSwiftPackageReference "smartcoach-ios-sdk" */;
+			productName = SmartCoachSDK;
+		};
 		FCDB2E142F2B105E009F6B7F /* SmartCoachSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SmartCoachSDK;
