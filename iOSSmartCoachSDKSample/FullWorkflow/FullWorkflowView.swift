@@ -1,6 +1,6 @@
 //
 //  FullWorkflowView.swift
-//  SmartCoachSDKDev
+//  iOSSmartCoachSDKSample
 //
 //  Created by Wyeth Shamp on 1/28/26.
 //
@@ -25,8 +25,7 @@ struct FullWorkflowView: View {
             Text("Device Type: \(device.deviceType.description)")
             Text("MAC Address: \(device.macAddress ?? "")")
             Text("Measurement Unit: \(device.measurementUnit.description)")
-            Text("Batter Level: \(device.batteryLevel.description)")
-            //Text("Measurement State: \(device.measurementState.description)")
+            Text("Battery Level: \(device.batteryLevel.description)")
             Text("Power Source: \(device.powerSource.description)")
             Text("Model Number: \(device.modelNumber ?? "unknown")")
         }
@@ -35,7 +34,7 @@ struct FullWorkflowView: View {
     var body: some View {
         VStack {
             
-            RadarStatusView(state: $viewModel.sessionState)
+            RadarStatusView(state: viewModel.sessionState)
             Spacer().frame(height: 50)
             connectionActionButton
             Spacer().frame(height: 50)
@@ -143,11 +142,6 @@ struct FullWorkflowView: View {
                 viewModel.disconnect()
             }
             .buttonStyle(.bordered)
-//        case .measuring:
-//            Button("Stop Measuring") {
-//                viewModel.stopMeasuring()
-//            }
-//            .buttonStyle(.bordered)
         case .scanning:
             Button("Stop Scanning") {
                 viewModel.stopScanning()

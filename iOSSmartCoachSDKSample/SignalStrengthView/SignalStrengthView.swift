@@ -1,6 +1,6 @@
 //
 //  SignalStrengthView.swift
-//  SmartCoachSDKDev
+//  iOSSmartCoachSDKSample
 //
 //  Created by Wyeth Shamp on 1/13/26.
 //

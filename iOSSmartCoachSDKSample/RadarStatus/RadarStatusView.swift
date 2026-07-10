@@ -1,6 +1,6 @@
 //
 //  RadarStatusView.swift
-//  SmartCoachSDKDev
+//  iOSSmartCoachSDKSample
 //
 //  Created by Wyeth Shamp on 1/13/26.
 //
@@ -9,7 +9,7 @@ import SwiftUI
 import SmartCoachSDK
 
 struct RadarStatusView: View {
-    @Binding var state: SmartCoachSessionState
+    let state: SmartCoachSessionState
     var body: some View {
         ZStack {
             switch state {
@@ -43,16 +43,16 @@ struct RadarStatusView: View {
 
 #Preview {
     @Previewable @State var status: SmartCoachSessionState = .connected(MockRadar())
-    RadarStatusView(state: $status)
+    RadarStatusView(state: status)
 }
 #Preview {
     @Previewable @State var status: SmartCoachSessionState = .disconnected(nil)
-    RadarStatusView(state: $status)
+    RadarStatusView(state: status)
 }
 
 #Preview {
     @Previewable @State var status: SmartCoachSessionState = .scanning([])
-    RadarStatusView(state: $status)
+    RadarStatusView(state: status)
 }
 
 

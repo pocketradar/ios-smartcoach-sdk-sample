@@ -6,9 +6,21 @@ This repository contains a sample app demonstrating how to integrate and use the
 
 ## Requirements
 
-- Xcode 15.0 or later
-- iOS 18.0 or later device or simulator
+- Xcode 26.0 or later (the SDK package manifest uses Swift tools 6.2)
+- An iOS 18.0 or later **physical device** for live scanning and measuring — the app
+  builds and runs on the Simulator, but Bluetooth is unavailable there
 - A valid Pocket Radar API key
+
+## What This Sample Shows
+
+The app boots into a full working example (`FullWorkflowView` / `FullWorkflowViewModel`)
+demonstrating the SDK's canonical integration pattern:
+
+- One async `startMonitoring()` loop observing `SmartCoach.sessionStateStream()`,
+  driven by the view's `.task` modifier — all UI state derives from the stream
+- Scanning, connecting, live speed streaming, and disconnecting, with the
+  wait-for-`.connected` sequencing the SDK requires
+- Error surfacing via the `.disconnected(error)` state and thrown `SmartCoachError`s
 
 ## Getting an API Key
 
@@ -64,7 +76,7 @@ The SmartCoach SDK is available at:
 
 **[https://github.com/pocketradar/smartcoach-ios-sdk](https://github.com/pocketradar/smartcoach-ios-sdk)**
 
-For SDK installation instructions, API reference, and integration guides see the SDK repository.
+For SDK installation instructions, API reference, and integration guides see the SDK repository. It also ships **agent skills** — recipes that let an AI coding assistant (Claude Code today) integrate SDK capabilities into your own app; see the SDK repository's "AI-Assisted Integration" section.
 
 ## Feedback & Reporting Issues
 

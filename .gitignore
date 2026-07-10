@@ -108,3 +108,4 @@ buildServer.json
 .nvim/xcodebuild/original_logs.log
 .nvim/xcodebuild/report.json
 .nvim/xcodebuild/xcodebuild.log
+.claude/
