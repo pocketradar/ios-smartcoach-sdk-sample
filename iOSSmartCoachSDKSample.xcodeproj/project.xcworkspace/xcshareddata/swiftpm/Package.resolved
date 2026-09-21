@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pocketradar/smartcoach-ios-sdk",
       "state" : {
-        "branch" : "main",
-        "revision" : "bb9752ac2621d56cc834bc4dc55a81f1092b345c"
+        "revision" : "9169629ee184110cfdeea5e28d1ef307d7311a77",
+        "version" : "0.1.0-beta.7"
       }
     }
   ],
