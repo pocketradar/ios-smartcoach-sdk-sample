@@ -109,3 +109,6 @@ buildServer.json
 .nvim/xcodebuild/report.json
 .nvim/xcodebuild/xcodebuild.log
 .claude/
+
+# Local stand-in package for pre-release SDK testing (see smartcoach-ios-sdk-dev/docs/RELEASE.md)
+SmartCoachSDK-Package/
